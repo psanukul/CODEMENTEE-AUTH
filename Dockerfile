@@ -5,11 +5,8 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm install 
-RUN apt-get update && apt-get install -y 
-
-
+ 
 COPY . .
-
-
+RUN npx prisma generate
 
 CMD ["node","src/index.js"]
