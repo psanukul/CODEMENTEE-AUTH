@@ -12,4 +12,4 @@ COPY . .
 
 
 
-CMD ["nodemon"]
+CMD ["node","src/index.js"]

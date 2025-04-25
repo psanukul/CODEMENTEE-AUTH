@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
-export const  samlRoutes = express.Router();
+export const samlRoutes = express.Router();
 
 
 samlRoutes.route('/callback').get(passport.authenticate("saml",{failureRedirect:"/login-failure"}),asyncHandler(async (req,res)=>{
@@ -33,7 +33,8 @@ samlRoutes.route('/callback').get(passport.authenticate("saml",{failureRedirect:
       
     
     }) );
-    samlRoutes.route('/login').get((req, res, next) => {
+
+samlRoutes.route('/login').get((req, res, next) => {
         console.log("🔥 /saml/login hit");
         next();
       }, passport.authenticate("auth0", {
@@ -65,5 +66,5 @@ samlRoutes.get("/logout", (req, res) => {
         logoutURL.search = searchString;
       
         res.redirect(logoutURL);
-      });
+  });
 
