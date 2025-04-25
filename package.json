@@ -1,0 +1,44 @@
+{
+  "name": "authservice",
+  "version": "1.0.0",
+  "description": "This is auth service ",
+  "main": "index.js",
+  "scripts": {
+    "test": "ndb src/index.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psanukul/CODEMENTEE-AUTH.git"
+  },
+  "keywords": [
+    "codementee"
+  ],
+  "author": "shashank,anukul,jai,manish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psanukul/CODEMENTEE-AUTH/issues"
+  },
+  "homepage": "https://github.com/psanukul/CODEMENTEE-AUTH#readme",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "bcrypt": "^5.1.1",
+    "chalk": "^5.4.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "ioredis": "^5.6.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "ndb": "^1.1.5",
+    "nodemailer": "^6.10.1",
+    "nodemon": "^3.1.9",
+    "passport": "^0.7.0",
+    "passport-auth0": "^1.4.4",
+    "passport-saml": "^3.2.4",
+    "prisma": "^6.6.0"
+  }
+}

@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(uuid())
+  firstName           String
+  lastName            String
+  email               String   @unique
+  password            String? // nullable
+  refreshToken        String? // nullable
+  forgetPasswordToken String? // nullable
+  profile             String   @default("https://cdn.vectorstock.com/i/1000x1000/87/44/preview-stamp-vector-10408744.webp")
+  role                ROLES    @default(MENTEE)
+  isSaml              Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  isAccountActive     Boolean  @default(true)
+  isVerified          Boolean  @default(false)
+}
+
+enum ROLES {
+  ADMIN
+  MENTOR
+  MENTEE
+}
+
+model Otp {
+  email     String?  @unique
+  id        String   @id @default(uuid())
+  otpVal    String
+  createdAt DateTime @default(now())
+}
