@@ -8,5 +8,3 @@ const config = {
     clientID: 'yOURSduveo6pZJ74FFqRlfwi6G4CEphs',
     issuerBaseURL: 'https://dev-wpxjv6wwvt0zqbrp.jp.auth0.com'
   };
-  
-  

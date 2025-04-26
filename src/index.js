@@ -48,7 +48,7 @@ app.use(express.json())
 app.use(morgan(`${process.env.NODE_ENV == 'development' ? 'dev': 'tiny'}`));
 app.use(expressSession(session));
 
-passport.use(strategy);
+passport.use('saml',strategy);
 app.use(passport.initialize());
 app.use(passport.session());
 

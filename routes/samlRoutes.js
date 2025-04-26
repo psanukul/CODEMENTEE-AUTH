@@ -1,7 +1,9 @@
 import express from "express";
 import passport from "passport";
 import { asyncHandler } from "../utils/asyncHandler.js";
-
+import chalk from "chalk";
+import prisma from "../prisma/prismaClient.js"
+import jwt from "jsonwebtoken"
 export const samlRoutes = express.Router();
 
 
@@ -10,19 +12,24 @@ samlRoutes.route('/callback').get(passport.authenticate("saml",{failureRedirect:
     
     console.log(chalk.bgGreenBright("We Are Comming on to the saml callback"));
     console.log("user",req.user);
-    
+    const data = req.user._json;
+console.log("the main and usefull data recieved is", data)
         // Extract attributes from SAML profile
-        const email = samlUser.email || samlUser.nameID;
-        const firstName = samlUser.firstName || samlUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'];
-        const lastName = samlUser.lastName || samlUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'];
+        const email = data?.email || samlUser.user_id;
+        console.log("the email is", email)
+        const firstName = samlUser?.displayName || samlUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'];
+        const lastName = "Hello"
+        //  samlUser.name?.familyName || samlUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'];
     
-        let user = await prisma.findUnique({ where:{email} });
+        let user = await prisma.user.findUnique({ where:{email} });
+        console.log("the returned user from the prisma is", user)
         if (!user) {
           user = await prisma.user.create({
-             data:{ email, firstName, lastName, isSaml: true }
+             data:{ email, firstName, lastName }
           });
         }
-    
+    console.log("the user after creation is", user)
+
         // 🎟️ Generate JWT token just like regular login
         const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
         const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '25d' });
@@ -36,8 +43,9 @@ samlRoutes.route('/callback').get(passport.authenticate("saml",{failureRedirect:
 
 samlRoutes.route('/login').get((req, res, next) => {
         console.log("🔥 /saml/login hit");
+        console.log("new data",req);
         next();
-      }, passport.authenticate("auth0", {
+      }, passport.authenticate("saml", {
         scope: "openid email profile"
       }));
 
